@@ -7,7 +7,7 @@ app = Celery('app',
              backend='rpc://chutha:root@localhost:15672/pure_vhost',
              # include=['app.tasks']
              )
-#  backend = 'rpc://chutha:root@localhost:5672/pure_vhost', broker_url = 'amqp://chutha:root@localhost:5672/pure_vhost'
+
 # Optional configuration, see the application user guide.
 app.conf.update(
     result_expires=3600,
@@ -16,12 +16,13 @@ app.conf.update(
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    '''
+    """
     setup tasks schedule
     :param sender:
     :param kwargs:
     :return:
-    '''
+    """
+
     # Calls test('hello') every 10 seconds.
     sender.add_periodic_task(15.0, test.s('hello'), name='add every 10')
 
